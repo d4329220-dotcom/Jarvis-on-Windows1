@@ -1,0 +1,81 @@
+<Window x:Class="Jarvis.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="JARVIS" Width="460" Height="820" WindowStyle="None" AllowsTransparency="True"
+        Background="Transparent" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen"
+        FontFamily="Segoe UI">
+    <Border CornerRadius="18" BorderThickness="1" BorderBrush="#1B4A6B" Padding="18" MouseLeftButtonDown="Drag">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#08101C" Offset="0"/>
+                <GradientStop Color="#03060C" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/><RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="—" Width="32" Height="26" Style="{StaticResource JButton}" Padding="0" Click="MinimizeClick"/>
+                <Button Content="✕" Width="32" Height="26" Margin="6,0,0,0" Style="{StaticResource JButton}" Padding="0" Click="CloseClick"/>
+            </StackPanel>
+
+            <TextBlock Grid.Row="1" x:Name="TitleText" Text="J.A.R.V.I.S" FontSize="30" FontWeight="Bold"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="2" x:Name="OnlineText" Text="● SYSTEM ONLINE" FontSize="12" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+
+            <Grid Grid.Row="3" Width="230" Height="230" Margin="0,12,0,4">
+                <Ellipse x:Name="Glow" Width="230" Height="230"/>
+                <Ellipse x:Name="Ring1" Width="205" Height="205" StrokeThickness="3" StrokeDashArray="10 6" RenderTransformOrigin="0.5,0.5">
+                    <Ellipse.RenderTransform><RotateTransform x:Name="Ring1Rot"/></Ellipse.RenderTransform>
+                </Ellipse>
+                <Ellipse x:Name="Ring2" Width="165" Height="165" StrokeThickness="2" StrokeDashArray="3 9" RenderTransformOrigin="0.5,0.5">
+                    <Ellipse.RenderTransform><RotateTransform x:Name="Ring2Rot"/></Ellipse.RenderTransform>
+                </Ellipse>
+                <Ellipse x:Name="Ring3" Width="125" Height="125" StrokeThickness="2" StrokeDashArray="20 8" RenderTransformOrigin="0.5,0.5">
+                    <Ellipse.RenderTransform><RotateTransform x:Name="Ring3Rot"/></Ellipse.RenderTransform>
+                </Ellipse>
+                <Ellipse x:Name="CoreDot" Width="58" Height="58" RenderTransformOrigin="0.5,0.5">
+                    <Ellipse.RenderTransform><ScaleTransform x:Name="CoreScale"/></Ellipse.RenderTransform>
+                </Ellipse>
+            </Grid>
+
+            <TextBlock Grid.Row="4" x:Name="StateText" Text="ОЖИДАНИЕ" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="4" x:Name="StateEn" Text="IDLE" FontSize="10" Foreground="#5F8AA6" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,-14"/>
+
+            <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,22,0,8">
+                <Ellipse x:Name="MicDot" Width="10" Height="10" Fill="#44566A" Margin="0,0,8,0"/>
+                <TextBlock x:Name="MicText" Text="Микрофон выключен" Foreground="#9FC3DA"/>
+            </StackPanel>
+
+            <Border Grid.Row="6" Background="#0A1220" BorderBrush="#12324A" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,0,0,6">
+                <StackPanel>
+                    <TextBlock Text="Последняя команда" FontSize="11" Foreground="#5F8AA6"/>
+                    <TextBlock x:Name="LastCommand" Text="—" Foreground="#CFEFFF" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="7" Background="#0A1220" BorderBrush="#12324A" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,0,0,10">
+                <StackPanel>
+                    <TextBlock Text="Ответ" FontSize="11" Foreground="#5F8AA6"/>
+                    <TextBlock x:Name="LastReply" Text="—" Foreground="#CFEFFF" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+
+            <Grid Grid.Row="8" Margin="0,0,0,8">
+                <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+                <Button x:Name="VoiceButton" Grid.Column="0" Content="🎙 Микрофон: ВЫКЛ" Style="{StaticResource JButton}" Margin="0,0,4,0" Click="VoiceClick"/>
+                <Button Grid.Column="1" Content="Говорить" Style="{StaticResource JButton}" Margin="4,0" Click="SpeakClick"/>
+                <Button Grid.Column="2" Content="⚙ Настройки" Style="{StaticResource JButton}" Margin="4,0,0,0" Click="SettingsClick"/>
+            </Grid>
+
+            <ListBox Grid.Row="9" x:Name="HistoryList" Background="#0A1220" BorderBrush="#12324A" Foreground="#CFEFFF" Margin="0,40,0,8"/>
+            <TextBox Grid.Row="9" x:Name="CommandBox" VerticalAlignment="Top" Height="30" Background="#0A1220" Foreground="#CFEFFF"
+                     BorderBrush="#12324A" CaretBrush="#00D4FF" Padding="6,4" KeyDown="CommandKeyDown" ToolTip="Введите команду и нажмите Enter"/>
+            <Button Grid.Row="10" Content="Очистить историю" Style="{StaticResource JButton}" Click="ClearClick"/>
+        </Grid>
+    </Border>
+</Window>
